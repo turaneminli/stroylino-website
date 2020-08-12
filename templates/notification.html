@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<div style="margin-top: 100px; margin-bottom: 500px;" class="container">
+    <h1>Notifications</h1>
+
+
+
+
+
+    <p></p>
+    
+    {% for object in object_list %}
+    <p> {{ object.user }} commented {{object.comment}} </p>
+    {% endfor %}
+    
+
+
+
+</div>
+
+{% endblock content %}

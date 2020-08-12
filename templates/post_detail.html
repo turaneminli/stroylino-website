@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div style="margin-top: 100px; margin-bottom: 250px;" class="container">
+    <h2>{{ object.title }}</h2>
+    <p>by <a href="{% url 'profile' object.author.pk %}">{{ object.author }}</a> | {{ object.date }}</p>
+    <p>{{ object.content }}</p>
+
+    {% if object.image %}
+    <a href="{{ object.image.url }}">
+      <img style="max-height: 198px; max-width: 198px;" class="post-images" src="{{ object.image.url }}" alt="">
+    </a>
+    {% endif %}
+
+    {% if request.user == post.author %}
+    <p><a href="{% url 'post_edit' post.pk %}">Edit</a> |
+    <a href="{% url 'post_delete' post.pk %}">Delete</a></p>
+    {% endif %}
+
+    <p>Back to <a href="{% url 'home' %}">All posts</a>.</p>
+
+    <!-- <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button class="btn btn-outline-secondary" type="submit">-></button>
+    </form> -->
+
+    <a href="{% url 'comment' post.pk %}">Add comment</a>
+    
+    <div class="card-footer">
+        {% for comment in post.comments.all %}
+        <div>
+          <p>
+            <span  class="font-weight-bold"> <a href="{% url 'profile' comment.author.pk %}">{{ comment.author }}</a>  &middot;</span>
+            {{ comment }}
+            
+            {% if request.user == comment.author %}
+              <a class="float-right" href="{% url 'comment_delete' comment.pk %}">Delete Comment</a>
+            {% endif %}
+            
+            </p>
+        </div>
+        
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock content %}
